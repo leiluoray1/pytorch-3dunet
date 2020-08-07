@@ -242,6 +242,9 @@ def get_slice_builder(raws, labels, weight_maps, config):
     assert 'name' in config
     logger.info(f"Slice builder config: {config}")
     slice_builder_cls = _get_cls(config['name'])
+    print("**************", str(slice_builder_cls))
+    import sys
+    sys.exit()
     return slice_builder_cls(raws, labels, weight_maps, **config)
 
 

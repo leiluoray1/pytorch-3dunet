@@ -5,7 +5,7 @@ model:
   # model class, e.g. UNet3D, ResidualUNet3D
   name: UNet3D
   # number of input channels to the model
-  in_channels: 1
+  in_channels: 4
   # number of output channels
   out_channels: 1
   # determines the order of operators in a single layer (gcr - GroupNorm+Conv3d+ReLU)
@@ -29,7 +29,7 @@ trainer:
   # how many iterations between tensorboard logging
   log_after_iters: 20
   # max number of epochs
-  epochs: 50
+  epochs: 1
   # max number of iterations
   iters: 10000
   # model with higher eval score is considered better
@@ -65,7 +65,7 @@ loaders:
   # when reading from multiple threads.
   dataset: StandardHDF5Dataset
   # batch dimension; if number of GPUs is N > 1, then a batch_size of N * batch_size will automatically be taken for DataParallel
-  batch_size: 1
+  batch_size: 4
   # how many subprocesses to use for data loading
   num_workers: 4
   # path to the raw data within the H5
@@ -95,10 +95,6 @@ loaders:
       raw:
         # re-scale the values to be 0-mean and 1-std
         - name: Standardize
-        # center-crop
-        - name: CropToFixed
-          size: [128, 128]
-          centered: True
         # randomly flips an image across randomly chosen axis
         - name: RandomFlip
         # rotate an image by 90 degrees around a randomly chosen plane
@@ -123,9 +119,6 @@ loaders:
           # add additional 'channel' axis when the input data is 3D
           expand_dims: true
       label:
-        - name: CropToFixed
-          size: [128, 128]
-          centered: True
         - name: RandomFlip
         - name: RandomRotate90
         - name: RandomRotate

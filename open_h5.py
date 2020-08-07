@@ -1,5 +1,5 @@
 import h5py
-filename = "Movie1_t00000_crop_gt.h5"
+filename = "./pytorch3dunet/train_data/flair.h5"
 
 with h5py.File(filename, "r") as f:
     # List all groups
